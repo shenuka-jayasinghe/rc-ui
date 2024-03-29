@@ -3,13 +3,32 @@
 	import ImageViewer from '$lib/Item/ImageViewer.svelte';
 	import Pages from '$lib/Item/Pages.svelte';
 	import { TabGroup, Tab, TabAnchor } from '@skeletonlabs/skeleton';
+	import { onMount } from 'svelte';
 	let tabSet: number = 0;
+    let pages: any[] = [];
+    let metadataString = ''
+    export let itemId: string
+
+    onMount(async () => {
+		try {
+            // PR-INCU-03472
+			const response = await fetch('http://localhost:3002/api/v1/json/PR-INCU-03472');
+			const data = await response.json();
+			metadataString = data.JSON;
+			const parsedJSON = JSON.parse(metadataString);
+			pages = parsedJSON[0].pages;
+		} catch (error) {
+			console.error('Error fetching metadata', error);
+		}
+	});
 </script>
 
 <div class="container mx-auto">
 	<div class="border-4 border-indigo-500/100 grid grid-cols-2 gap-4">
 		<div>
-			<ImageViewer/>
+			<ImageViewer
+            {metadataString}
+            />
 		</div>
 		<div>
 			<TabGroup>
@@ -22,14 +41,19 @@
 				<!-- Tab Panels --->
 				<svelte:fragment slot="panel">
 					{#if tabSet === 0}
-						<About />
+						<About 
+                        {metadataString}
+                        />
 					{:else if tabSet === 1}
 						No manifests here
 					{:else if tabSet === 2}
-						<Pages/>
+						<Pages
+                        {metadataString}
+                        />
 					{/if}
 				</svelte:fragment>
 			</TabGroup>
+
 		</div>
 	</div>
 </div>

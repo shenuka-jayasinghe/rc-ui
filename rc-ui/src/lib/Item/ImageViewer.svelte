@@ -2,39 +2,38 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { RangeSlider } from '@skeletonlabs/skeleton';
+	import { readable } from 'svelte/store';
 	let pages: any[] = [];
 	let max = 1; //initialise to default value
+	export let metadataString = ''
 
-	onMount(async () => {
-		try {
-			const response = await fetch('http://localhost:3002/api/v1/json/PR-INCU-03472');
-			const data = await response.json();
-			const metadataString = data.JSON;
+	const parsedMetadata = readable([], (set) => {
+		if (metadataString) {
 			const parsedJSON = JSON.parse(metadataString);
-			pages = parsedJSON[0].pages;
-		} catch (error) {
-			console.error('Error fetching metadata', error);
+			set(parsedJSON[0].pages);
+		} else {
+			set([]);
 		}
 	});
-	let value = 1;
+
 	$: {
+		pages = $parsedMetadata;
 		max = pages.length;
 	}
-</script>
 
-<RangeSlider name="range-slider" bind:value max={25} step={1} ticked>
+	let value = 1;
+
+</script>
+{#if pages[value]}
+<RangeSlider name="range-slider" bind:value max={pages.length} step={1} ticked>
 	<div class="flex justify-between items-center">
-		{#if pages[value]}
 		<div class="font-bold">
 			{JSON.stringify(pages[value].label)}</div>
-		{:else}
-		<div class="font-bold">
-			Label</div>
-		{/if}
-
-		<div class="text-xs">{value} / {max}</div>
+		<div class="text-xs"><input class="box-border h-[3px] w-[12px] bg-gray-800 text-white"/>/ {max}</div>
 	</div>
 </RangeSlider>
+{/if}
+
 
 <div>
     {#if pages[value]}
