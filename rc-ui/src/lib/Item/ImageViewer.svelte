@@ -7,6 +7,9 @@
 	let max = 1; //initialise to default value
 	export let metadataString = ''
 
+    // Set a default value
+    export let value: number = 1;
+
 	$: {
         if (metadataString) {
             const parsedJSON = JSON.parse(metadataString);
@@ -18,24 +21,24 @@
         }
     }
 
-    // Set a default value
-    let value: number = 1;
+
+    function updateValue(event:any) {
+        value = parseInt(event.target.value);
+    }
+
 
 </script>
-{#if pages[value]}
-<RangeSlider name="range-slider" bind:value max={pages.length} step={1} ticked>
-	<div class="flex justify-between items-center">
-		<div class="font-bold">
-			{JSON.stringify(pages[value].label)}</div>
-		<div class="text-xs"><input class="box-border h-[3px] w-[12px] bg-gray-800 text-white"/>/ {max}</div>
-	</div>
-</RangeSlider>
-{/if}
 
 
 <div>
+    <div>
+        <div class="text-s flex items-center justify-center">
+            <input type="number" id="page-number" name="page-number" required minlength="1" maxlength="8" class="box-border h-[3px] w-[70px] bg-gray-800 text-white" bind:value={value} on:input={updateValue}/>
+            <span>/ {max}</span>
+        </div>    
+    </div>
     {#if pages[value]}
-        <img class="rounded-t-md object-cover object-top" src={`https://image.digitalcollections.manchester.ac.uk/iiif/${pages[value].IIIFImageURL}/full/!2000,2000/0/default.jpg`} alt="" />
+        <img class="rounded-t-md object-cover object-top" src={`https://image.digitalcollections.manchester.ac.uk/iiif/${pages[value-1].IIIFImageURL}/full/!2000,2000/0/default.jpg`} alt="" />
     {:else}
         <p>No data available for this index</p>
     {/if}

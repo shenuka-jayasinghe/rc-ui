@@ -4,14 +4,32 @@
 	import Pages from '$lib/Item/Pages.svelte';
 	import { TabGroup, Tab, TabAnchor } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
+	import { writable } from 'svelte/store';
 	let tabSet: number = 0;
     let pages: any[] = [];
     let metadataString = ''
     export let itemId: string
+	let value = writable(1)
+	// Subscribe to value changes and update the current value
+    function updateValue(newValue: number) {
+        value.set(newValue);
+		console.log("newValue=====>", newValue)
+		console.log("value=====>", $value)
+    }
+
+	$: {
+		$value;
+	}
+	
+	// let value = 1;
+
+	
+
 
     onMount(async () => {
 		try {
             // PR-INCU-03472
+			console.log("itemId ==>", itemId)
 			const response = await fetch(`http://localhost:3002/api/v1/json/${itemId}`);
 			const data = await response.json();
 			metadataString = data.JSON;
@@ -21,6 +39,9 @@
 			console.error('Error fetching metadata', error);
 		}
 	});
+
+	
+
 </script>
 
 <div class="container mx-auto">
@@ -28,6 +49,7 @@
 		<div>
 			<ImageViewer
             {metadataString}
+			value={$value}
             />
 		</div>
 		<div>
@@ -49,6 +71,8 @@
 					{:else if tabSet === 2}
 						<Pages
                         {metadataString}
+						{value}
+						updateValue={updateValue}
                         />
 					{/if}
 				</svelte:fragment>
