@@ -12,7 +12,7 @@
     onMount(async () => {
 		try {
             // PR-INCU-03472
-			const response = await fetch('http://localhost:3002/api/v1/json/PR-INCU-03472');
+			const response = await fetch(`http://localhost:3002/api/v1/json/${itemId}`);
 			const data = await response.json();
 			metadataString = data.JSON;
 			const parsedJSON = JSON.parse(metadataString);
@@ -24,7 +24,7 @@
 </script>
 
 <div class="container mx-auto">
-	<div class="border-4 border-indigo-500/100 grid grid-cols-2 gap-4">
+	<div class="m-4 grid grid-cols-2 gap-4">
 		<div>
 			<ImageViewer
             {metadataString}

@@ -7,21 +7,19 @@
 	let max = 1; //initialise to default value
 	export let metadataString = ''
 
-	const parsedMetadata = readable([], (set) => {
-		if (metadataString) {
-			const parsedJSON = JSON.parse(metadataString);
-			set(parsedJSON[0].pages);
-		} else {
-			set([]);
-		}
-	});
-
 	$: {
-		pages = $parsedMetadata;
-		max = pages.length;
-	}
+        if (metadataString) {
+            const parsedJSON = JSON.parse(metadataString);
+            pages = parsedJSON[0].pages;
+            max = pages.length;
+        } else {
+            pages = [];
+            max = 1; // Reset to default value if metadataString is empty
+        }
+    }
 
-	let value = 1;
+    // Set a default value
+    let value: number = 1;
 
 </script>
 {#if pages[value]}
