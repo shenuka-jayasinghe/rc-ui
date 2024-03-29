@@ -7,40 +7,24 @@
 	import { writable } from 'svelte/store';
 	let tabSet: number = 0;
     let pages: any[] = [];
-    let metadataString = ''
-    export let itemId: string
+    export let metadataString = ''
+    export let itemId: string;
 	let value = writable(1)
 	// Subscribe to value changes and update the current value
     function updateValue(newValue: number) {
         value.set(newValue);
-		console.log("newValue=====>", newValue)
-		console.log("value=====>", $value)
     }
 
 	$: {
 		$value;
 	}
 	
-	// let value = 1;
+	if(metadataString){
+		const parsedJSON = JSON.parse(metadataString);
+		pages = parsedJSON[0].pages;
+	}
 
-	
-
-
-    onMount(async () => {
-		try {
-            // PR-INCU-03472
-			console.log("itemId ==>", itemId)
-			const response = await fetch(`http://localhost:3002/api/v1/json/${itemId}`);
-			const data = await response.json();
-			metadataString = data.JSON;
-			const parsedJSON = JSON.parse(metadataString);
-			pages = parsedJSON[0].pages;
-		} catch (error) {
-			console.error('Error fetching metadata', error);
-		}
-	});
-
-	
+			
 
 </script>
 

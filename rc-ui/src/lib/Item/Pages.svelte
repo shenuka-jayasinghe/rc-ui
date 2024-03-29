@@ -16,7 +16,6 @@
 
     // Function to update the value when an anchor tag is clicked
 	function handleClick(index: number) {
-		console.log("pages index ===> ",index + 1)
 		const updatedValue = updateValue(index + 1); 
         // Call the updateValue function
     }
