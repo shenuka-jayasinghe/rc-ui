@@ -17,13 +17,29 @@
         }
     }
 
+    function scrollToTop() {
+        const targetElement = document.querySelector("#scroller");
+        if (targetElement) {
+        targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start' // Scroll to the top of the target element
+        });
+    } else {
+        console.warn(`Target element '${targetElement}' not found.`);
+    }
+        console.log("tried to scroll")
+    }
+
+
     // Function to update the value when an anchor tag is clicked
 	function handleClick(index: number) {
 		const updatedValue = updateValue(index + 1); 
+        scrollToTop();
         // Call the updateValue function
     }
 </script>
 
+<div id="scroller"></div>
 <div class="ml-2 mb-7">
     <RadioGroup>
         <RadioItem bind:group={value} name="justify" value={0}><svg class="fill-gray-400" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">{@html grid}</svg></RadioItem>
