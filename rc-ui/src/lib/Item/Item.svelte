@@ -8,7 +8,6 @@
 	let tabSet: number = 0;
     let pages: any[] = [];
     export let metadataString = ''
-    export let itemId: string;
 	let value = writable(1)
 	// Subscribe to value changes and update the current value
     function updateValue(newValue: number) {

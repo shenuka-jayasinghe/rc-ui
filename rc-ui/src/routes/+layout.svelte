@@ -2,6 +2,7 @@
 	import '../app.postcss';
 	import { AppShell, AppBar } from '@skeletonlabs/skeleton';
 	import { LightSwitch } from '@skeletonlabs/skeleton';
+	import { searchIcon } from '$lib/assets/search.js';
 
 	// Highlight JS
 	import hljs from 'highlight.js/lib/core';
@@ -21,6 +22,7 @@
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
+	import { assets } from '$app/paths';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 </script>
 
@@ -29,34 +31,36 @@
 	<svelte:fragment slot="header">
 		<!-- App Bar -->
 		<AppBar>
+			<LightSwitch />
 			<svelte:fragment slot="lead">
-				<strong class="text-xl uppercase">Skeleton</strong>
+				<style>
+					@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+					.text-xl.uppercase {
+						font-family: 'Permanent Marker', cursive;
+					}
+				</style>
+				<strong class="text-xl uppercase">R COLLECTIONS</strong>
 			</svelte:fragment>
+
 			<svelte:fragment slot="trail">
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://discord.gg/EXqV7W8MtY"
-					target="_blank"
-					rel="noreferrer"
-				>
-					Discord
-				</a>
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://twitter.com/SkeletonUI"
-					target="_blank"
-					rel="noreferrer"
-				>
-					Twitter
-				</a>
-				<a
-					class="btn btn-sm variant-ghost-surface"
-					href="https://github.com/skeletonlabs/skeleton"
-					target="_blank"
-					rel="noreferrer"
-				>
-					GitHub
-				</a>
+				<div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
+					<input
+						type="search"
+						placeholder="Search..."
+						class="box-border h-[30px] w-[200px] bg-gray-800"
+					/>
+					<button class="object-cover object-fit variant-filled h-[30px] w-[50px] bg-gray-800">
+						<svg
+							class="fill-purple-100 dark:fill-indigo-900"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 -960 960 960"
+							width="50"
+							height="30"
+						>
+							{@html searchIcon}
+						</svg>
+					</button>
+				</div>
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
