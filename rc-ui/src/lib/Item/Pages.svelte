@@ -27,7 +27,6 @@
     } else {
         console.warn(`Target element '${targetElement}' not found.`);
     }
-        console.log("tried to scroll")
     }
 
 
